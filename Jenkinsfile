@@ -10,7 +10,7 @@ properties([
 ])
 
 def gitCredentialId = "f6359ce2-6a4b-4b13-ad94-f2400f9dbe11"
-def gitUrl = "git@bitbucket.org:rungway/appium-ios.git"
+def gitUrl = "git@bitbucket.org:rungway/selenium-web.git"
 
 ansiColor('xterm') {
     node("Mac") {
