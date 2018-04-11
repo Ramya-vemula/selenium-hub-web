@@ -12,7 +12,7 @@ public class LoginPageTests extends BaseTests {
     public void firstTest() {
         driver.get("https://rungway.dev.rungway.uk/");
         LoginPage loginPage = new LoginPage(driver);
-        Assert.assertEquals(loginPage.pageTitleText(), "Log i");
+        Assert.assertEquals(loginPage.pageTitleText(), "Log in");
     }
 
     @Test
