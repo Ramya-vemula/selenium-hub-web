@@ -8,33 +8,35 @@ import org.openqa.selenium.support.pagefactory.AjaxElementLocatorFactory;
 
 public class LoginPage {
 
-  private WebDriver driver;
+    private WebDriver driver;
 
-  public LoginPage(WebDriver driver) {
+    @FindBy(css = ".login-wrap h1")
+    private WebElement pageTitle;
 
-    this.driver = driver;
-    PageFactory.initElements(new AjaxElementLocatorFactory(driver, 15), this);
-  }
+    @FindBy(id = "email")
+    private WebElement emailAddressField;
 
-  @FindBy(css = ".login-wrap h1")
-  private WebElement pageTitle;
+    @FindBy(id = "password")
+    private WebElement passwordField;
 
-  @FindBy(id = "email")
-  private WebElement emailAddressField;
+    @FindBy(id = "submit_btn")
+    private WebElement loginButton;
 
-  @FindBy(id = "password")
-  private WebElement passwordField;
+    public LoginPage(final WebDriver driver) {
 
-  @FindBy(id = "submit_btn")
-  private WebElement loginButton;
+        this.driver = driver;
+        PageFactory.initElements(new AjaxElementLocatorFactory(driver, 15), this);
+    }
 
-  public String pageTitleText(){
-  	return pageTitle.getText();
-  }
+    public String pageTitleText() {
 
-  public void loginAsUser(String email, String password){
-	  emailAddressField.sendKeys(email);
-	  passwordField.sendKeys(password);
-	  loginButton.click();
-  }
+        return pageTitle.getText();
+    }
+
+    public void loginAsUser(final String email, final String password) {
+
+        emailAddressField.sendKeys(email);
+        passwordField.sendKeys(password);
+        loginButton.click();
+    }
 }

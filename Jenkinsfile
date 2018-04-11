@@ -4,22 +4,32 @@ import static groovy.json.JsonOutput.*
 properties([
         parameters([
                 choice(name: 'browserName', choices: 'chrome', description: 'Select a browser'),
-                choice(name: 'platformName', choices: 'Mac', description: 'Select a platform')
+                choice(name: 'environment', choices: 'dev\nstaging\nprod', description: 'Select a environment')
         ]),
         disableConcurrentBuilds()
 ])
 
-def gitCredentialId = "f6359ce2-6a4b-4b13-ad94-f2400f9dbe11"
-def gitUrl = "git@bitbucket.org:rungway/selenium-web.git"
+def gitUrl = "git@github.com:Rungway/selenium-web.git"
 
 ansiColor('xterm') {
     node("Mac") {
         stage('Checkout') {
+
             checkout scm
+
+            if (environment != null) {
+            echo "Selected environment: ${environment}"
+            }
+
+            else {
+              echo "NOT Selected environment to test"
+              throw "NOT Selected environment to test"
+              }
         }
+
         stage('Tests') {
             try {
-                sh "mvn clean test"
+                sh "gradle clean test"
              } catch (error) {
                   generateReport()
                   throw error
@@ -39,7 +49,7 @@ def generateReport() {
                 jdk              : '',
                 properties       : [],
                 reportBuildPolicy: 'ALWAYS',
-                results          : [[path: 'allure-results']]
+                results          : [[path: 'build/allure-results']]
         ])
     }
 }

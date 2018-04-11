@@ -6,47 +6,41 @@ import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.remote.RemoteWebDriver;
+import org.testng.ITestResult;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
 
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import org.openqa.selenium.remote.RemoteWebDriver;
-import org.testng.ITestResult;
-import org.testng.annotations.*;
-
 
 public abstract class BaseTests {
 
-	public WebDriver driver;
+    public WebDriver driver;
 
-	private DesiredCapabilities chromeBrowserCapabilities() {
+    @BeforeMethod
+    public void setup() {
 
-		DesiredCapabilities capabilities = new DesiredCapabilities();
-		ChromeOptions chromeOptions = new ChromeOptions();
-		chromeOptions.addArguments("start-maximized");
-		chromeOptions.setCapability(ChromeOptions.CAPABILITY, chromeOptions);
-		return capabilities;
-	}
+        String seleniumServerUrl = "http://localhost:5555/wd/hub";
+        try {
+            driver = new RemoteWebDriver(new URL(seleniumServerUrl), new ChromeOptions().addArguments("start-maximized"));
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+    }
 
-	@BeforeMethod(description = "Setup")
-	public void setup() throws MalformedURLException {
-
-		String seleniumServerUrl = "http://0.0.0.0:5555/wd/hub";
-		driver = new RemoteWebDriver(new URL(seleniumServerUrl), chromeBrowserCapabilities());
-	}
-
-	@AfterMethod(description = "Tear down")
-	public void tearDown(ITestResult result) {
-		if (result.getStatus() == ITestResult.FAILURE) {
-			saveScreenshot(driver);
-		}
-		driver.quit();
-	}
+    @AfterMethod
+    public void tearDown(final ITestResult result) {
+        if (result.getStatus() == ITestResult.FAILURE) {
+            saveScreenshot(driver);
+        }
+        driver.quit();
+    }
 
 
-	@Attachment(value = "Page Screenshot", type = "image/png")
-	private byte[] saveScreenshot(WebDriver driver) {
-		return ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
-	}
+    @Attachment(value = "Page Screenshot", type = "image/png")
+    private byte[] saveScreenshot(final WebDriver driver) {
+        return ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
+    }
 }
