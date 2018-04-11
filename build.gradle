@@ -4,8 +4,6 @@ apply plugin: 'maven'
 group = 'com.rungway'
 version = '1.0-SNAPSHOT'
 
-description = """"""
-
 sourceCompatibility = 1.8
 
 buildscript {

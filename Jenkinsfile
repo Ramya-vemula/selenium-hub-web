@@ -18,27 +18,25 @@ ansiColor('xterm') {
             checkout scm
 
             if (environment != null) {
-            echo "Selected environment: ${environment}"
+                echo "Selected environment: ${environment}"
+            } else {
+                echo "NOT Selected environment to test"
+                throw "NOT Selected environment to test"
             }
-
-            else {
-              echo "NOT Selected environment to test"
-              throw "NOT Selected environment to test"
-              }
         }
 
         stage('Tests') {
             try {
                 sh "gradle clean test"
-             } catch (error) {
-                  generateReport()
-                  throw error
-             }
+            } catch (error) {
+                generateReport()
+                throw error
+            }
         }
 
         stage('Report') {
-             generateReport()
-             }
+            generateReport()
+        }
     }
 }
 
