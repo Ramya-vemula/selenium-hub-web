@@ -1,6 +1,7 @@
 package com.rungway;
 
 
+import com.rungway.utils.TestData;
 import io.qameta.allure.Attachment;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
@@ -25,6 +26,7 @@ public abstract class BaseTests {
         String seleniumServerUrl = "http://localhost:5555/wd/hub";
         try {
             driver = new RemoteWebDriver(new URL(seleniumServerUrl), new ChromeOptions().addArguments("start-maximized"));
+            driver.get(TestData.getProperty("BASE_URL"));
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
