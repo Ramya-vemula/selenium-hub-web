@@ -1,4 +1,4 @@
-##RUNGWAY - selenium-web
+## selenium-web
 
 
 ###About Project
@@ -18,8 +18,8 @@ Advantages of POM are
   
 Reporting:
 - We use allure report, to generate a report locally
-  - Via commandline > enter "allure serve allure-results", this should generate and open the report.
-    Note: this will only work when tests are ran via command line eg: mvn clean test
+  - Via commandline > enter "allure serve build/allure-results", this should generate and open the report.
+    Note: this will only work when tests are ran via command line eg: gradle clean test
 - If running via Jenkins, there will allways be a report attached to a specific build. This is generated part of build.   
 ```
 
@@ -32,27 +32,21 @@ Reporting:
 
 ###Download GIT Repository
 ```
-- Git clone selenium-web repo
-- Once you have clone the repo make sure you load the external libraries from maven
-```
-
-###Download External Libraries Based on POM Files
-```
-- Right click project directory via IntelliJ navigate to maven > reimport, this should re import all the dependencies 
+- Clone selenium-web repo from github
 ```
 
 ###Run tests Via Jenkins
 ```
 - Go to Jenkins > select selenium-web job > Build with parameters
-    - Select the browser, at the moment we only have chrome. We willa dd more to this going forward
-    - Select platform eg: Mac > Build 
+    - Select the browser, at the moment we only have chrome. We will add more to this going forward
+    - Select environment eg: dev, staging or prod > Build 
 ```
 
 ###Run tests via IDE
 ```
 - Start selenium standalone server  
-- Run below via terminal
-    - mvn clean test 
+- Run 'gradle clean test' via terminal
+    -  
 
 ```
 ###Trouble Shooting on failed tests
