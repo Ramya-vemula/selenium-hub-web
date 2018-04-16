@@ -4,11 +4,7 @@ import com.rungway.TestSetup;
 
 public class TestData {
 
-    private static TestSetup setup;
-
-    static {
-        setup = new TestSetup();
-    }
+    private static TestSetup setup = new TestSetup();
 
     public static String getProperty(final String propertyKey) {
         return setup.getProperties().getProperty(propertyKey);

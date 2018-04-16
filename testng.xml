@@ -1,9 +1,25 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
 
 <suite name="selenium-web" verbose="1">
-    <test name="Regression1">
+    <test name="ChromeTests">
+        <parameter name="browser" value="chrome"/>
         <packages>
             <package name="com.rungway.tests"/>
         </packages>
     </test>
+
+    <test name="FirefoxTest">
+        <parameter name="browser" value="firefox"/>
+        <packages>
+            <package name="com.rungway.tests"/>
+        </packages>
+    </test>
+
+    <test name="SafariTest">
+        <parameter name="browser" value="safari"/>
+        <packages>
+            <package name="com.rungway.tests"/>
+        </packages>
+    </test>
+
 </suite>

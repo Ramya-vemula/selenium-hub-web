@@ -6,33 +6,45 @@ import io.qameta.allure.Attachment;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.remote.RemoteWebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.safari.SafariDriver;
 import org.testng.ITestResult;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
-
-import java.net.MalformedURLException;
-import java.net.URL;
+import org.testng.annotations.Parameters;
 
 
 public abstract class BaseTests {
 
     public WebDriver driver;
 
-    @BeforeMethod
-    public void setup() {
+    @BeforeMethod(alwaysRun = true)
+    @Parameters("browser")
+    public void setup(final String browser) throws Exception {
+        if (browser.equalsIgnoreCase("firefox")) {
 
-        String seleniumServerUrl = "http://localhost:5555/wd/hub";
-        try {
-            driver = new RemoteWebDriver(new URL(seleniumServerUrl), new ChromeOptions().addArguments("start-maximized"));
-            driver.get(TestData.getProperty("BASE_URL"));
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
+            //path to geckodriver
+            System.setProperty("webdriver.gecko.driver", "/Users/Rohith/selenium/geckodriver");
+            driver = new FirefoxDriver();
+        } else if (browser.equalsIgnoreCase("chrome")) {
+
+            //path to chromedriver
+            System.setProperty("webdriver.chrome.driver", "/Users/Rohith/selenium/chromedriver");
+            driver = new ChromeDriver();
+        } else if (browser.equalsIgnoreCase("safari")) {
+            driver = new SafariDriver();
+        } else {
+            //If no browser passed throw exception
+            throw new Exception("Browser is not correct");
         }
+
+        driver.manage().window().maximize();
+        driver.get(TestData.getProperty("BASE_URL"));
+
     }
 
-    @AfterMethod
+    @AfterMethod(alwaysRun = true)
     public void tearDown(final ITestResult result) {
         if (result.getStatus() == ITestResult.FAILURE) {
             saveScreenshot(driver);
