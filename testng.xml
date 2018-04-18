@@ -15,11 +15,11 @@
         </packages>
     </test>
 
-    <test name="SafariTest">
+    <!--<test name="SafariTest">
         <parameter name="browser" value="safari"/>
         <packages>
             <package name="com.rungway.tests"/>
         </packages>
-    </test>
+    </test>-->
 
 </suite>

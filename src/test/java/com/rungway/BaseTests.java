@@ -12,6 +12,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.ITestResult;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 
 
@@ -23,7 +24,7 @@ public abstract class BaseTests {
 
     @BeforeMethod(alwaysRun = true)
     @Parameters("browser")
-    public void setup(final String browser) throws Exception {
+    public void setup(@Optional("chrome") final String browser) {
         if (browser.equalsIgnoreCase("firefox")) {
 
             System.setProperty("webdriver.gecko.driver", TestData.getProperty("GEKO_DRIVER_PATH"));
@@ -37,7 +38,11 @@ public abstract class BaseTests {
             driver = new SafariDriver();
         } else {
             //If no browser passed throw exception
-            throw new Exception("Browser is not correct");
+            try {
+                throw new Exception("Browser is not correct");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
         wait = new WebDriverWait(driver, 15);
         driver.manage().window().maximize();
