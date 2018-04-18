@@ -33,9 +33,6 @@ public abstract class BaseTests {
 
             System.setProperty("webdriver.chrome.driver", TestData.getProperty("CHROME_DRIVER_PATH"));
             driver = new ChromeDriver();
-        } else if (browser.equalsIgnoreCase("safari")) {
-
-            driver = new SafariDriver();
         } else {
             //If no browser passed throw exception
             try {
