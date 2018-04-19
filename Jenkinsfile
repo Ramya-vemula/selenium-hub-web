@@ -3,7 +3,6 @@ import static groovy.json.JsonOutput.*
 
 properties([
         parameters([
-                choice(name: 'browserName', choices: 'chrome', description: 'Select a browser'),
                 choice(name: 'environment', choices: 'dev\nstaging\nprod', description: 'Select a environment')
         ]),
         disableConcurrentBuilds()
