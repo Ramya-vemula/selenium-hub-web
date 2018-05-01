@@ -39,8 +39,8 @@ public class TestSetup {
         }
     }
 
-    private String getFilenameFromEnvironment(final String environment) {
-        return environment + ".properties";
+    private String getFilenameFromEnvironment(final String environmentName) {
+        return environmentName + ".properties";
     }
 }
 

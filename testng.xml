@@ -8,8 +8,15 @@
         </packages>
     </test>
 
-    <test name="FirefoxTest">
+    <test name="FirefoxTests">
         <parameter name="browser" value="firefox"/>
+        <packages>
+            <package name="com.rungway.tests"/>
+        </packages>
+    </test>
+
+    <test name="IETests">
+        <parameter name="browser" value="ie"/>
         <packages>
             <package name="com.rungway.tests"/>
         </packages>
