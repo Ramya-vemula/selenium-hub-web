@@ -31,7 +31,7 @@ public abstract class BaseTests {
     @BeforeMethod
     @Parameters("browser")
     public void setup(@Optional("chrome") final String browser) throws MalformedURLException {
-        String seleniumServerUrl = "http://34.248.197.92:4444/wd/hub";
+        String seleniumServerUrl = "http://" +TestData.getProperty("SELENIUM_SERVER_IP")+ ":4444/wd/hub";
 
         if (browser.equalsIgnoreCase("firefox")) {
             driver = new RemoteWebDriver(new URL(seleniumServerUrl), DesiredCapabilities.firefox());
