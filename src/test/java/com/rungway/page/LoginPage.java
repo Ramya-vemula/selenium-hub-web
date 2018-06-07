@@ -30,6 +30,9 @@ public class LoginPage {
     @FindBy(id = "login_button")
     public WebElement loginButton;
 
+    @FindBy(id = "login_button")
+    public WebElement errorMessage;
+
     @FindBy(css = "label[title='Email']")
     public WebElement emailFieldLabel;
 

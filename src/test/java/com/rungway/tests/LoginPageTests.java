@@ -79,6 +79,31 @@ public class LoginPageTests extends BaseTests {
     }
 
     @Test
+    public void verifyErrorMessageAppearsWithInvalidEmailAndValidPassword() {
+
+        driver.get(URLConstants.loginPageURL());
+
+        LoginPage loginPage = new LoginPage(driver);
+        loginPage.loginAsUser("rungway.com", "Rungway@2018");
+
+        // verify failure error message appears
+        Assert.assertEquals(loginPage.errorMessage, "Please enter a valid email.");
+
+    }
+
+    @Test
+    public void verifyErrorMessageAppearsWithValidEmailAndInValidPassword() {
+
+        driver.get(URLConstants.loginPageURL());
+
+        LoginPage loginPage = new LoginPage(driver);
+        loginPage.loginAsUser("rohith.vitta@rungway.com", "password");
+
+        // verify failure error message appears
+        Assert.assertEquals(loginPage.errorMessage, "Please enter a valid password.");
+    }
+
+    @Test
     public void verifyFooterOnLoginPage() {
 
         //navigate to login page
