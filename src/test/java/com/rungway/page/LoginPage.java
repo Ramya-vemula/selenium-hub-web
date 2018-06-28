@@ -1,11 +1,14 @@
 package com.rungway.page;
 
+import com.rungway.utils.Helpers;
 import com.rungway.utils.URLConstants;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.pagefactory.AjaxElementLocatorFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class LoginPage {
 
@@ -30,7 +33,7 @@ public class LoginPage {
     @FindBy(id = "login_button")
     public WebElement loginButton;
 
-    @FindBy(id = "login_button")
+    @FindBy(className = "message")
     public WebElement errorMessage;
 
     @FindBy(css = "label[title='Email']")
@@ -55,14 +58,17 @@ public class LoginPage {
         PageFactory.initElements(new AjaxElementLocatorFactory(driver, 15), this);
     }
 
-    public String pageTitleText() {
-
-        return pageTitle.getText();
-    }
-
     public void loginAsUser(final String email, final String password) {
         emailAddressField.sendKeys(email);
         passwordField.sendKeys(password);
         loginButton.click();
+    }
+
+    public void loginAsValidUser() {
+        loginAsUser("rohith.vitta@rungway.com", "Rungway@2018");
+        //wait for dashboard page title
+        DashboardPage dashboardPage = new DashboardPage(driver);
+        Helpers.waitForElementToAppear(driver, dashboardPage.pageTitle);
+
     }
 }

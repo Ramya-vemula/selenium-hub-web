@@ -2,7 +2,10 @@ package com.rungway.tests;
 
 
 import com.rungway.BaseTests;
+import com.rungway.page.DashboardPage;
 import com.rungway.page.LoginPage;
+import com.rungway.utils.Helpers;
+import com.rungway.utils.LocalStorage;
 import com.rungway.utils.URLConstants;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -28,7 +31,7 @@ public class LoginPageTests extends BaseTests {
         loginPage.logo.isDisplayed();
 
         //verify page title is correct
-        Assert.assertEquals(loginPage.pageTitleText(), "Log in to your Rungway");
+        Assert.assertEquals(loginPage.pageTitle.getText(), "Log in to your Rungway");
 
         //verify field labels
         Assert.assertEquals(loginPage.emailFieldLabel.getText(), "Email");
@@ -75,7 +78,7 @@ public class LoginPageTests extends BaseTests {
         //navigate to login page
         driver.get(URLConstants.loginPageURL());
         LoginPage loginPage = new LoginPage(driver);
-        loginPage.loginAsUser("trash@rungway.com", "Rungway@2017");
+        loginPage.loginAsValidUser();
     }
 
     @Test
@@ -87,7 +90,7 @@ public class LoginPageTests extends BaseTests {
         loginPage.loginAsUser("rungway.com", "Rungway@2018");
 
         // verify failure error message appears
-        Assert.assertEquals(loginPage.errorMessage, "Please enter a valid email.");
+        Assert.assertEquals(loginPage.errorMessage.getText(), "There's something wrong with your email or password, please try again");
 
     }
 
@@ -100,7 +103,7 @@ public class LoginPageTests extends BaseTests {
         loginPage.loginAsUser("rohith.vitta@rungway.com", "password");
 
         // verify failure error message appears
-        Assert.assertEquals(loginPage.errorMessage, "Please enter a valid password.");
+        Assert.assertEquals(loginPage.errorMessage.getText(), "There's something wrong with your email or password, please try again");
     }
 
     @Test
@@ -132,7 +135,7 @@ public class LoginPageTests extends BaseTests {
         //switch to TC tab and verify the currentUrl
         driver.switchTo().window(browserTabsWithTCLink.get(1));
         Assert.assertEquals(driver.getCurrentUrl(), "https://support.rungway.com/terms-conditions.html");
-        Assert.assertEquals(loginPage.pageTitleText(), "End User Licence Agreement");
+        Assert.assertEquals(loginPage.pageTitle.getText(), "End User Licence Agreement");
 
         //close TC tab
         driver.close();
@@ -151,7 +154,21 @@ public class LoginPageTests extends BaseTests {
         //switch to PP tab and verify the currentUrl
         driver.switchTo().window(browserTabsWithPPLink.get(1));
         Assert.assertEquals(driver.getCurrentUrl(), "https://support.rungway.com/privacy-policy.html");
-        Assert.assertEquals(loginPage.pageTitleText(), "User Privacy Policy");
+        Assert.assertEquals(loginPage.pageTitle.getText(), "User Privacy Policy");
+    }
+
+    @Test
+    public void loginAsValidUserVerifyLocalStorageElements() throws InterruptedException {
+
+        driver.get(URLConstants.loginPageURL());
+        LoginPage loginPage = new LoginPage(driver);
+        loginPage.loginAsValidUser();
+
+        // verify local storage elements are present
+        Thread.sleep(1000);
+        LocalStorage localStorage = new LocalStorage(driver);
+        String jwt = localStorage.getItemFromLocalStorage("RW_jwt");
+        Assert.assertNotNull(jwt);
     }
 
 }
