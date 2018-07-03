@@ -9,4 +9,8 @@ public class URLConstants {
     public static String loginPageURL() {
         return getBaseUrl() + "login";
     }
+
+    public static String logoutPageURL() {
+        return getBaseUrl() + "logout";
+    }
 }

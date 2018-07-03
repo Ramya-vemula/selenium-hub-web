@@ -2,21 +2,14 @@ package com.rungway.tests;
 
 
 import com.rungway.BaseTests;
-import com.rungway.page.DashboardPage;
 import com.rungway.page.LoginPage;
-import com.rungway.utils.Helpers;
 import com.rungway.utils.LocalStorage;
 import com.rungway.utils.URLConstants;
-import org.openqa.selenium.By;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-import org.testng.asserts.SoftAssert;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 public class LoginPageTests extends BaseTests {
 
@@ -169,6 +162,23 @@ public class LoginPageTests extends BaseTests {
         LocalStorage localStorage = new LocalStorage(driver);
         String jwt = localStorage.getItemFromLocalStorage("RW_jwt");
         Assert.assertNotNull(jwt);
+    }
+
+    @Test
+    public void logoutAsValidUserVerifyLocalStorageElementIsNull() {
+
+        //login as a valid user
+        driver.get(URLConstants.loginPageURL());
+        LoginPage loginPage = new LoginPage(driver);
+        loginPage.loginAsValidUser();
+
+        //logout
+        driver.get(URLConstants.logoutPageURL());
+
+        // verify local storage elements is null
+        LocalStorage localStorage = new LocalStorage(driver);
+        String validAccessToken = localStorage.getItemFromLocalStorage("RW_jwt");
+        Assert.assertNull(validAccessToken);
     }
 
 }
