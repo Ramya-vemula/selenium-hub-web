@@ -53,6 +53,7 @@ public class LoginPage {
     public LoginPage(final WebDriver driver) {
         this.driver = driver;
         PageFactory.initElements(new AjaxElementLocatorFactory(driver, 15), this);
+        Helpers.waitForPageLoadComplete(driver);
     }
 
     public void loginAsUser(final String email, final String password) {
@@ -63,9 +64,7 @@ public class LoginPage {
 
     public void loginAsValidUser() {
         loginAsUser("rohith.vitta@rungway.com", "Rungway@2018");
-        //wait for dashboard page title
-        DashboardPage dashboardPage = new DashboardPage(driver);
-        Helpers.waitForElementToAppear(driver, dashboardPage.pageTitle);
+        Helpers.waitForPageLoadComplete(driver);
 
     }
 }

@@ -55,14 +55,14 @@ public class LoginPageTests extends BaseTests {
         loginPage.passwordEyeIcon.isDisplayed();
 
         //verify password text is not displayed
-        Assert.assertEquals(loginPage.passwordField.getAttribute("type"), "password");
+        Assert.assertEquals(passwordDisplayedType(loginPage.passwordField), "password");
 
         //click on the password eye, verify password field eye-cross icon is displayed
         loginPage.passwordEyeIcon.click();
         loginPage.passwordEyeCrossIcon.isDisplayed();
 
         //verify password text is displayed
-        Assert.assertEquals(loginPage.passwordField.getAttribute("type"), "text");
+        Assert.assertEquals(passwordDisplayedType(loginPage.passwordField), "text");
     }
 
     @Test

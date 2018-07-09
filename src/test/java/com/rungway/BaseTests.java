@@ -7,9 +7,10 @@ import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.firefox.FirefoxOptions;
+import org.openqa.selenium.ie.InternetExplorerOptions;
 import org.openqa.selenium.remote.RemoteWebDriver;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.ITestResult;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
@@ -24,8 +25,6 @@ public abstract class BaseTests {
 
     public WebDriver driver;
 
-    public WebDriverWait wait;
-
     @BeforeMethod
     @Parameters("browser")
     public void setup(@Optional("chrome") final String browser) throws MalformedURLException {
@@ -34,15 +33,18 @@ public abstract class BaseTests {
         switch (browser) {
 
             case "firefox":
-                driver = new RemoteWebDriver(new URL(seleniumServerUrl), DesiredCapabilities.firefox());
+                FirefoxOptions firefoxOptions = new FirefoxOptions();
+                driver = new RemoteWebDriver(new URL(seleniumServerUrl), firefoxOptions);
                 break;
 
             case "chrome":
-                driver = new RemoteWebDriver(new URL(seleniumServerUrl), DesiredCapabilities.chrome());
+                ChromeOptions chromeOptions = new ChromeOptions();
+                driver = new RemoteWebDriver(new URL(seleniumServerUrl), chromeOptions);
                 break;
 
             case "ie":
-                driver = new RemoteWebDriver(new URL(seleniumServerUrl), DesiredCapabilities.internetExplorer());
+                InternetExplorerOptions internetExplorerOptions = new InternetExplorerOptions();
+                driver = new RemoteWebDriver(new URL(seleniumServerUrl), internetExplorerOptions);
                 break;
 
             default:
@@ -52,7 +54,6 @@ public abstract class BaseTests {
                     e.printStackTrace();
                 }
         }
-        wait = new WebDriverWait(driver, 15);
         driver.manage().window().maximize();
 
     }
@@ -73,6 +74,11 @@ public abstract class BaseTests {
 
     public String placeholderText(final WebElement element) {
         return element.getAttribute("placeholder");
+
+    }
+
+    public String passwordDisplayedType(final WebElement element) {
+        return element.getAttribute("type");
 
     }
 }
