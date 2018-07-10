@@ -48,11 +48,7 @@ public abstract class BaseTests {
                 break;
 
             default:
-                try {
-                    throw new Exception("** Invalid browser parameter **");
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+                System.out.println("** Invalid browser parameter **");
         }
         driver.manage().window().maximize();
 

@@ -46,10 +46,4 @@ public class LocalStorage {
         js.executeScript(String.format("window.localStorage.clear();"));
     }
 
-
 }
-
-
-
-
-

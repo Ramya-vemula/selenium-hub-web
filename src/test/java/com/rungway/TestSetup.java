@@ -33,10 +33,7 @@ public class TestSetup {
     }
 
     private void loadEnvironment() {
-        environment = System.getProperty("ENVIRONMENT", "local");
-        if (StringUtils.isEmpty(environment)) {
-            environment = "dev";
-        }
+        environment = System.getProperty("ENVIRONMENT", "dev");
     }
 }
 
