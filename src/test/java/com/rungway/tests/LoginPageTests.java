@@ -165,7 +165,7 @@ public class LoginPageTests extends BaseTests {
     }
 
     @Test
-    public void logoutAsValidUserVerifyLocalStorageElementIsNull() {
+    public void logoutAsValidUserVerifyLocalStorageElementIsNull() throws InterruptedException {
 
         //login as a valid user
         driver.get(URLConstants.loginPageURL());
@@ -175,6 +175,7 @@ public class LoginPageTests extends BaseTests {
         //logout
         driver.get(URLConstants.logoutPageURL());
 
+        Thread.sleep(1000);
         // verify local storage elements is null
         LocalStorage localStorage = new LocalStorage(driver);
         String validAccessToken = localStorage.getItemFromLocalStorage("RW_jwt");
