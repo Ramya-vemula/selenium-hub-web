@@ -1,7 +1,5 @@
 package com.rungway;
 
-import org.apache.commons.lang3.StringUtils;
-
 import java.io.IOException;
 import java.util.Properties;
 
@@ -33,7 +31,7 @@ public class TestSetup {
     }
 
     private void loadEnvironment() {
-        environment = System.getProperty("ENVIRONMENT", "dev");
+        environment = System.getProperty("ENVIRONMENT", "local");
     }
 }
 

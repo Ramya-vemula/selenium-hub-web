@@ -1,6 +1,7 @@
 package com.rungway.page;
 
 import com.rungway.utils.Helpers;
+import com.rungway.utils.TestData;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -11,6 +12,9 @@ public class LoginPage {
 
     @FindBy(css = "svg.SVGInline-svg")
     public WebElement logo;
+
+    @FindBy(className = "login")
+    public WebElement pageContainer;
 
     @FindBy(tagName = "h1")
     public WebElement pageTitle;
@@ -63,7 +67,7 @@ public class LoginPage {
     }
 
     public void loginAsValidUser() {
-        loginAsUser("rohith.vitta@rungway.com", "Rungway@2018");
+        loginAsUser(TestData.USER_EMAIL, TestData.USER_PASSWORD);
         Helpers.waitForPageLoadComplete(driver);
 
     }

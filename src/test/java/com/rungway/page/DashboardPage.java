@@ -1,5 +1,6 @@
 package com.rungway.page;
 
+import com.rungway.utils.Helpers;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -17,5 +18,6 @@ public class DashboardPage {
     public DashboardPage(final WebDriver driver) {
         this.driver = driver;
         PageFactory.initElements(new AjaxElementLocatorFactory(driver, 15), this);
+        Helpers.waitForPageLoadComplete(driver);
     }
 }

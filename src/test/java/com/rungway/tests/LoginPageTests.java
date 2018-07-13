@@ -2,12 +2,17 @@ package com.rungway.tests;
 
 
 import com.rungway.BaseTests;
+import com.rungway.page.DashboardPage;
 import com.rungway.page.LoginPage;
+import com.rungway.utils.Helpers;
 import com.rungway.utils.LocalStorage;
+import com.rungway.utils.TestData;
 import com.rungway.utils.URLConstants;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,7 +22,7 @@ public class LoginPageTests extends BaseTests {
     public void verifyAllElementsAreDisplayedOnLoginPage() {
 
         //navigate to login page
-        driver.get(URLConstants.loginPageURL());
+        driver.get(URLConstants.loginPage());
         LoginPage loginPage = new LoginPage(driver);
 
         //verify logo is displayed
@@ -45,7 +50,7 @@ public class LoginPageTests extends BaseTests {
     public void verifyPasswordTextIsDisplayed() {
 
         //navigate to login page
-        driver.get(URLConstants.loginPageURL());
+        driver.get(URLConstants.loginPage());
         LoginPage loginPage = new LoginPage(driver);
 
         //enter text into password field
@@ -69,7 +74,7 @@ public class LoginPageTests extends BaseTests {
     public void verifyLoginAsValidUser() {
 
         //navigate to login page
-        driver.get(URLConstants.loginPageURL());
+        driver.get(URLConstants.loginPage());
         LoginPage loginPage = new LoginPage(driver);
         loginPage.loginAsValidUser();
     }
@@ -77,10 +82,10 @@ public class LoginPageTests extends BaseTests {
     @Test
     public void verifyErrorMessageAppearsWithInvalidEmailAndValidPassword() {
 
-        driver.get(URLConstants.loginPageURL());
+        driver.get(URLConstants.loginPage());
 
         LoginPage loginPage = new LoginPage(driver);
-        loginPage.loginAsUser("rungway.com", "Rungway@2018");
+        loginPage.loginAsUser("rungway.com", TestData.USER_PASSWORD);
 
         // verify failure error message appears
         Assert.assertEquals(loginPage.errorMessage.getText(), "There's something wrong with your email or password, please try again");
@@ -90,10 +95,10 @@ public class LoginPageTests extends BaseTests {
     @Test
     public void verifyErrorMessageAppearsWithValidEmailAndInValidPassword() {
 
-        driver.get(URLConstants.loginPageURL());
+        driver.get(URLConstants.loginPage());
 
         LoginPage loginPage = new LoginPage(driver);
-        loginPage.loginAsUser("rohith.vitta@rungway.com", "password");
+        loginPage.loginAsUser(TestData.USER_EMAIL, "password");
 
         // verify failure error message appears
         Assert.assertEquals(loginPage.errorMessage.getText(), "There's something wrong with your email or password, please try again");
@@ -103,7 +108,7 @@ public class LoginPageTests extends BaseTests {
     public void verifyFooterOnLoginPage() {
 
         //navigate to login page
-        driver.get(URLConstants.loginPageURL());
+        driver.get(URLConstants.loginPage());
         LoginPage loginPage = new LoginPage(driver);
 
         //verify footer text
@@ -114,7 +119,7 @@ public class LoginPageTests extends BaseTests {
     public void verifyPPAndTCLinks() throws InterruptedException {
 
         //navigate to login page
-        driver.get(URLConstants.loginPageURL());
+        driver.get(URLConstants.loginPage());
         LoginPage loginPage = new LoginPage(driver);
 
         //click an verify TC link
@@ -153,7 +158,7 @@ public class LoginPageTests extends BaseTests {
     @Test
     public void loginAsValidUserVerifyLocalStorageElements() throws InterruptedException {
 
-        driver.get(URLConstants.loginPageURL());
+        driver.get(URLConstants.loginPage());
         LoginPage loginPage = new LoginPage(driver);
         loginPage.loginAsValidUser();
 
@@ -168,12 +173,12 @@ public class LoginPageTests extends BaseTests {
     public void logoutAsValidUserVerifyLocalStorageElementIsNull() throws InterruptedException {
 
         //login as a valid user
-        driver.get(URLConstants.loginPageURL());
+        driver.get(URLConstants.loginPage());
         LoginPage loginPage = new LoginPage(driver);
         loginPage.loginAsValidUser();
 
         //logout
-        driver.get(URLConstants.logoutPageURL());
+        driver.get(URLConstants.logoutPage());
 
         Thread.sleep(1000);
         // verify local storage elements is null
@@ -182,4 +187,37 @@ public class LoginPageTests extends BaseTests {
         Assert.assertNull(validAccessToken);
     }
 
+    @Test
+    @Ignore
+    public void insertExpiredTokenInLocalStorageVerifyLoginPageIsDisplayed() {
+
+        driver.get(URLConstants.getBaseUrl());
+
+        //insert expired access token into local storage
+        LocalStorage localStorage = new LocalStorage(driver);
+        localStorage.setItemInLocalStorage("RW_jwt", TestData.EXPIRED_TOKEN);
+
+        //navigate to my login url, verify login page is displayed
+        //TODO: Enable this test once redirection is fixed on web
+        driver.get(URLConstants.loginPage());
+        LoginPage loginPage = new LoginPage(driver);
+        loginPage.pageContainer.isDisplayed();
+    }
+
+    @Test
+    public void insertValidTokenInLocalStorageVerifyLoginPageIsNotDisplayed() throws IOException {
+
+        driver.get(URLConstants.getBaseUrl());
+
+        String accessToken = Helpers.getAccessToken(TestData.USER_EMAIL, TestData.USER_PASSWORD);
+
+        //insert expired access token into local storage
+        LocalStorage localStorage = new LocalStorage(driver);
+        localStorage.setItemInLocalStorage("RW_jwt", accessToken);
+
+        //navigate to my base url, verify dashboard page is displayed
+        driver.get(URLConstants.getBaseUrl());
+        DashboardPage dashboardPage = new DashboardPage(driver);
+        dashboardPage.pageTitle.isDisplayed();
+    }
 }

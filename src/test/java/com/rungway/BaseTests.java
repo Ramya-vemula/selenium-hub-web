@@ -3,10 +3,8 @@ package com.rungway;
 
 import com.rungway.utils.TestData;
 import io.qameta.allure.Attachment;
-import org.openqa.selenium.OutputType;
-import org.openqa.selenium.TakesScreenshot;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import lombok.extern.slf4j.Slf4j;
+import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.ie.InternetExplorerOptions;
@@ -20,7 +18,7 @@ import org.testng.annotations.Parameters;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-
+@Slf4j
 public abstract class BaseTests {
 
     public WebDriver driver;
@@ -48,7 +46,7 @@ public abstract class BaseTests {
                 break;
 
             default:
-                System.out.println("** Invalid browser parameter **");
+                log.error("** Invalid browser parameter: {} **", browser);
         }
         driver.manage().window().maximize();
 
