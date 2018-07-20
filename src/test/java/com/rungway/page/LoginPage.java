@@ -13,7 +13,7 @@ public class LoginPage {
     @FindBy(css = "svg.SVGInline-svg")
     public WebElement logo;
 
-    @FindBy(className = "login")
+    @FindBy(className = "login-panel")
     public WebElement pageContainer;
 
     @FindBy(tagName = "h1")

@@ -25,10 +25,10 @@ import java.util.List;
 
 public class Helpers {
 
-    public static void waitForElementToAppear(WebDriver driver, WebElement element) {
+    public static void waitForURLToChange(WebDriver driver, String url) {
 
         WebDriverWait wait = new WebDriverWait(driver, 30);
-        wait.until(ExpectedConditions.visibilityOf(element));
+        wait.until(ExpectedConditions.urlToBe(url));
     }
 
     public static void waitForPageLoadComplete(WebDriver driver, int specifiedTimeout) {
