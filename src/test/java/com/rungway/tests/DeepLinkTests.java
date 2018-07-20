@@ -11,7 +11,7 @@ public class DeepLinkTests extends BaseTests {
 
     @Test
     @Ignore
-    public void verifyLoginPageIsDisplginayedForAllDeeplinks() {
+    public void verifyLoginPageIsDisplayedForAllDeeplinks() {
 
         //navigate to my activity url
         driver.get(URLConstants.loginPage());
