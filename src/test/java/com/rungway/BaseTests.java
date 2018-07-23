@@ -3,15 +3,12 @@ package com.rungway;
 
 import com.rungway.utils.TestData;
 import io.qameta.allure.Attachment;
-import org.openqa.selenium.OutputType;
-import org.openqa.selenium.TakesScreenshot;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.remote.DesiredCapabilities;
+import lombok.extern.slf4j.Slf4j;
+import org.openqa.selenium.*;
+import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.firefox.FirefoxOptions;
+import org.openqa.selenium.ie.InternetExplorerOptions;
 import org.openqa.selenium.remote.RemoteWebDriver;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.ITestResult;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
@@ -21,35 +18,37 @@ import org.testng.annotations.Parameters;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-
+@Slf4j
 public abstract class BaseTests {
 
     public WebDriver driver;
 
-    public WebDriverWait wait;
-
     @BeforeMethod
     @Parameters("browser")
     public void setup(@Optional("chrome") final String browser) throws MalformedURLException {
-        String seleniumServerUrl = "http://" +TestData.getProperty("SELENIUM_SERVER_IP")+ ":4444/wd/hub";
+        String seleniumServerUrl = "http://" + TestData.getProperty("SELENIUM_SERVER_IP") + ":5555/wd/hub";
 
-        if (browser.equalsIgnoreCase("firefox")) {
-            driver = new RemoteWebDriver(new URL(seleniumServerUrl), DesiredCapabilities.firefox());
-        } else if (browser.equalsIgnoreCase("chrome")) {
-            driver = new RemoteWebDriver(new URL(seleniumServerUrl), DesiredCapabilities.chrome());
-        } else if (browser.equalsIgnoreCase("ie")) {
-            driver = new RemoteWebDriver(new URL(seleniumServerUrl), DesiredCapabilities.internetExplorer());
-        } else {
-            //If no browser passed throw exception
-            try {
-                throw new Exception("Browser is not correct");
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+        switch (browser) {
+
+            case "firefox":
+                FirefoxOptions firefoxOptions = new FirefoxOptions();
+                driver = new RemoteWebDriver(new URL(seleniumServerUrl), firefoxOptions);
+                break;
+
+            case "chrome":
+                ChromeOptions chromeOptions = new ChromeOptions();
+                driver = new RemoteWebDriver(new URL(seleniumServerUrl), chromeOptions);
+                break;
+
+            case "ie":
+                InternetExplorerOptions internetExplorerOptions = new InternetExplorerOptions();
+                driver = new RemoteWebDriver(new URL(seleniumServerUrl), internetExplorerOptions);
+                break;
+
+            default:
+                log.error("** Invalid browser parameter: {} **", browser);
         }
-        wait = new WebDriverWait(driver, 15);
         driver.manage().window().maximize();
-        driver.get(TestData.getProperty("BASE_URL"));
 
     }
 
@@ -67,23 +66,13 @@ public abstract class BaseTests {
         return ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
     }
 
-    public void waitForVisibilityOfElement(final WebElement element) {
-        wait.until(ExpectedConditions.visibilityOf(element));
+    public String placeholderText(final WebElement element) {
+        return element.getAttribute("placeholder");
 
     }
 
-    public void waitForVisibilityOfElement(final By locator) {
-        wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
-
-    }
-
-    public void waitForElementToDisappear(final WebElement element) {
-        wait.until(ExpectedConditions.invisibilityOf(element));
-
-    }
-
-    public void waitForElementToDisappear(final By locator) {
-        wait.until(ExpectedConditions.invisibilityOfElementLocated(locator));
+    public String passwordDisplayedType(final WebElement element) {
+        return element.getAttribute("type");
 
     }
 }

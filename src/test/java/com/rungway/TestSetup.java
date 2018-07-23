@@ -1,7 +1,5 @@
 package com.rungway;
 
-import org.apache.commons.lang3.StringUtils;
-
 import java.io.IOException;
 import java.util.Properties;
 
@@ -21,7 +19,7 @@ public class TestSetup {
     }
 
     private void loadProperties() {
-        String resourceFilename = getFilenameFromEnvironment(environment);
+        String resourceFilename = environment + ".properties";
 
         properties = new Properties();
         try {
@@ -33,14 +31,7 @@ public class TestSetup {
     }
 
     private void loadEnvironment() {
-        environment = System.getProperty("ENVIRONMENT", "dev");
-        if (StringUtils.isEmpty(environment)) {
-            environment = "dev";
-        }
-    }
-
-    private String getFilenameFromEnvironment(final String environmentName) {
-        return environmentName + ".properties";
+        environment = System.getProperty("ENVIRONMENT", "local");
     }
 }
 
