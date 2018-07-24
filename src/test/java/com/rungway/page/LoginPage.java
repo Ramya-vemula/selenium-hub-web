@@ -52,6 +52,9 @@ public class LoginPage {
     @FindBy(css = "a#privacy-policy")
     public WebElement ppLink;
 
+    @FindBy(css = "a[href*='reset-password']")
+    public WebElement forgotPasswordLink;
+
     private WebDriver driver;
 
     public LoginPage(final WebDriver driver) {
