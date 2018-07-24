@@ -11,8 +11,8 @@ public class ResetPasswordConfirmationPage {
     @FindBy(id = "page_header")
     public WebElement pageTitle;
 
-    @FindBy(css = "(.uk-margin-top > a")
-    public WebElement didntRecieveEmailLink;
+    @FindBy(css = ".uk-margin-top > a")
+    public WebElement didntReceiveEmailLink;
 
     @FindBy(className = "message")
     public WebElement messageArea;

@@ -33,4 +33,8 @@ public class URLConstants {
     public static String apiTokenURL() {
         return apiBaseUrl() + "oauth/token";
     }
+
+    public static String resetPasswordPage() {
+        return getBaseUrl() + "reset-password";
+    }
 }
