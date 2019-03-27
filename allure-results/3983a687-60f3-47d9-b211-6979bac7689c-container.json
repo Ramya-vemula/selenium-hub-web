@@ -1,0 +1,1 @@
+{"uuid":"3983a687-60f3-47d9-b211-6979bac7689c","name":"com.rungway.BaseTests.setup","description":"","start":1532096991445,"stop":1532096992769,"children":["e1ee472a-fcc5-4ae9-9a9b-691c96071cce"],"befores":[{"name":"setup","status":"passed","stage":"finished","description":"","start":1532096991447,"stop":1532096992768}]}

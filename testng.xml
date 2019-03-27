@@ -4,21 +4,21 @@
     <test name="ChromeTests">
         <parameter name="browser" value="chrome"/>
         <packages>
-            <package name="com.rungway.tests"/>
+            <package name="com.tissl.tests"/>
         </packages>
     </test>
 
     <test name="FirefoxTests">
         <parameter name="browser" value="firefox"/>
         <packages>
-            <package name="com.rungway.tests"/>
+            <package name="com.tissl.tests"/>
         </packages>
     </test>
 
     <test name="IETests">
         <parameter name="browser" value="ie"/>
         <packages>
-            <package name="com.rungway.tests"/>
+            <package name="com.tissl.tests"/>
         </packages>
     </test>
 
